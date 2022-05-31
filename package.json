@@ -9,7 +9,7 @@
     "firebase",
     "firebase-auth"
   ],
-  "homepage": "https://github.com/tonxxd/firebase-auth-claims-cli/blob/master/README.md",
+  "homepage": "https://github.com/tonxxd/firebase-auth-claims-cli",
   "main": "./src/index.js",
   "scripts": {
     "test": "jest",
