@@ -1,6 +1,6 @@
 {
   "name": "@tonxxd/firebase-auth-claims-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI for setting custom claims on a user account via the admin sdk",
   "keywords": [
     "javascript",
