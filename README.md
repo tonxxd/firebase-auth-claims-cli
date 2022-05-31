@@ -1,5 +1,11 @@
 # Firebase - Custom Claims CLI
 
+Usage
+
+```bash
+npx @tonxxd/firebase-auth-claims-cli path_to_firebase_config -e "test@gmail.com" -c '{"admin":true}'
+```
+
 The Firebase Admin SDK supports defining custom attributes on user accounts. This provides the ability to implement various access control strategies, including role-based access control, in Firebase apps. These custom attributes can give users different levels of access (roles), which are enforced in an application's security rules.
 
 This CLI is a simple wrapper around the Admin SDk to allow current claims to be viewed and updated as well as new cliams to be added.
@@ -20,7 +26,6 @@ For use locally you can set this environmental variable like so:
 
 `export GOOGLE_APPLICATION_CREDENTIALS=`path/to/local/service/config'`
 
-
 #### Command Line
 
 ##### Claim
@@ -32,11 +37,12 @@ claim [path/to/serviceAccountConfig.json]
 - `-e, --email <email>` - The `email` argument is required and is the email address associated with the user account that is used for authentication. Custom claims apply to users already signed in with supported providers (Email/Password, Google, Facebook, phone, etc). For example, a user signed in with Firebase Auth's Email/Password provider can have access control defined using custom claims. For more information see the [docs](https://firebase.google.com/docs/auth/admin/custom-claims).
 - `-c, --claims <claims>` - Claims are a json string that is parsed using [node-jq](https://www.npmjs.com/package/node-jq) and used to set claims on a given user account. Once set they are accessible on both the client and the server. And can be accessed like below:
 
-
 ##### Node.js:
-```admin.auth().getUser(uid).then(userRecord);```
+
+`admin.auth().getUser(uid).then(userRecord);`
 
 ##### Web:
+
 ```
 firebase.auth().currentUser.getIdTokenResult()
   .then(idTokenResult=> {
@@ -44,8 +50,6 @@ firebase.auth().currentUser.getIdTokenResult()
     idTokenResult.claims
   })
 ```
-
-
 
 ## License
 

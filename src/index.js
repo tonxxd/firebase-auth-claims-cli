@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-const chalk = require('chalk');
-const packageJson = require('../package.json');
+const chalk = require("chalk");
+const packageJson = require("../package.json");
 
 const currentNodeVersion = process.versions.node;
-const semver = currentNodeVersion.split('.');
+const semver = currentNodeVersion.split(".");
 const major = semver[0];
 
 if (major < 6) {
@@ -23,4 +23,4 @@ if (major < 6) {
   process.exit(1);
 }
 
-require('./claims');
+require("./claims");

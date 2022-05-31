@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const chalk = require('chalk');
-const admin = require('firebase-admin');
-const jq = require('node-jq');
-const inquirer = require('inquirer');
-const to = require('await-to-js').default;
+const chalk = require("chalk");
+const admin = require("firebase-admin");
+const jq = require("node-jq");
+const inquirer = require("inquirer");
+const to = require("await-to-js").default;
 
-const setClaims = async (email, claims, options) => {
+const setClaims = async (email, claims, options = {}) => {
   // fetch user account information by email address
 
   if (options.verbose) {
@@ -14,7 +14,7 @@ const setClaims = async (email, claims, options) => {
   }
 
   const [userRetrievalError, user] = await to(
-    admin.auth().getUserByEmail(email),
+    admin.auth().getUserByEmail(email)
   );
 
   if (userRetrievalError || !user) {
@@ -22,23 +22,27 @@ const setClaims = async (email, claims, options) => {
       chalk.red(
         `Error:
       User not found, unable to set custom claims.
-      `,
-      ),
+      `
+      )
     );
     process.exit(1);
   }
 
   if (user.customClaims) {
     const [existingClaimsError, existingClaims] = await to(
-      jq.run('.', user.customClaims, { input: 'json', output: 'pretty' }),
+      jq.run(".", user.customClaims, { input: "json", output: "pretty" })
     );
     if (!existingClaimsError) {
       console.log(chalk.magenta(`Current custom claims: ${existingClaims}`));
     }
+  } else {
+    console.log(chalk.magenta(`No claims found`));
   }
 
+  if (!claims) process.exit(1);
+
   const [parsedClaimsError, parsedClaims] = await to(
-    jq.run('.', claims, { input: 'string', output: 'json' }),
+    jq.run(".", claims, { input: "string", output: "json" })
   );
 
   if (parsedClaimsError) {
@@ -46,8 +50,8 @@ const setClaims = async (email, claims, options) => {
       chalk.red(
         `Error:
       ${e}
-      `,
-      ),
+      `
+      )
     );
     process.exit(1);
   }
@@ -58,10 +62,10 @@ const setClaims = async (email, claims, options) => {
     const prompt = inquirer.createPromptModule();
     const [confirmationError, confirmation] = await to(
       prompt({
-        type: 'confirm',
-        name: 'choice',
-        message: 'Are you sure you want to add the claims to this user?',
-      }),
+        type: "confirm",
+        name: "choice",
+        message: "Are you sure you want to add the claims to this user?",
+      })
     );
 
     if (confirmationError) {
@@ -80,7 +84,7 @@ const setClaims = async (email, claims, options) => {
     // Add custom claims for additional privileges.
     // This will be picked up by the user on token refresh or next sign in on new device.
     const [customClaimError] = await to(
-      admin.auth().setCustomUserClaims(user.uid, parsedClaims),
+      admin.auth().setCustomUserClaims(user.uid, parsedClaims)
     );
 
     if (customClaimError) {
@@ -90,8 +94,8 @@ const setClaims = async (email, claims, options) => {
         Unable to set custom claim:
 
         ${customClaimError}
-        `,
-        ),
+        `
+        )
       );
       process.exit(1);
     }

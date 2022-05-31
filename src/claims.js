@@ -28,7 +28,9 @@ program
 
     if (email && claims) {
       setClaims(email, claims, mergedOptions);
-    } else {
+    } else if(email){
+      setClaims(email, false, mergedOptions);
+    }else {
       console.log(
         chalk.red(
           `Error:
