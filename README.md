@@ -3,7 +3,7 @@
 Usage
 
 ```bash
-npx @tonxxd/firebase-auth-claims-cli path_to_firebase_config -e "test@gmail.com" -c '{"admin":true}'
+npx @tonxxd/firebase-auth-claims-cli claim *path_to_firebase_config* -e "test@gmail.com" -c '{"admin":true}'
 ```
 
 The Firebase Admin SDK supports defining custom attributes on user accounts. This provides the ability to implement various access control strategies, including role-based access control, in Firebase apps. These custom attributes can give users different levels of access (roles), which are enforced in an application's security rules.
